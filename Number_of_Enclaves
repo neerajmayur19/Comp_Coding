@@ -1,0 +1,68 @@
+class Pair
+{
+    int first;
+    int second;
+    public Pair(int first,int second)
+    {
+        this.first = first;
+        this.second = second;
+    }
+}
+class Solution {
+    public int numEnclaves(int[][] grid) {
+        int m = grid.length;
+        int n = grid[0].length;
+        int[][] vis = new int[m][n];
+        Queue<Pair> q = new LinkedList<Pair>();
+        // Adding all the lands that exist on the boundary
+        for(int i=0;i<m;i++)
+        {
+            for(int j=0;j<n;j++)
+            {
+                if(grid[i][j]==1)
+                {
+                    if(i==0 || i==m-1 || j==0 || j==n-1)
+                    {
+                        q.add(new Pair(i,j));
+                        vis[i][j] = 1;
+                    }
+                }
+            }
+        }
+        // Traversing the Queue BFS wise to get all the lands that are connnected through it 
+        while(!q.isEmpty())
+        {
+            int f = q.peek().first;
+            int s = q.peek().second;
+            q.remove();
+
+            int[] drow = {-1,0,1,0};
+            int[] dcol = {0,1,0,-1};
+
+            for(int i=0;i<4;i++)
+            {
+                int nrow = f + drow[i];
+                int ncol = s + dcol[i];
+
+                if(nrow>=0 && nrow<m && ncol>=0 && ncol < n)
+                {
+                    if(vis[nrow][ncol]==0 && grid[nrow][ncol]==1)
+                    {
+                        vis[nrow][ncol] = 1;
+                        q.add(new Pair(nrow,ncol));
+                    }
+                }
+            }
+        }
+        int count = 0;
+        for(int i=0;i<m;i++)
+        {
+            for(int j=0;j<n;j++)
+            {
+                if(grid[i][j]==1 && vis[i][j]==0)
+                count++;
+            }
+        }
+        return count;
+    }
+}

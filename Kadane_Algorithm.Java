@@ -1,5 +1,3 @@
-
-
 class Solution{
 
     // arr: input array

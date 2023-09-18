@@ -1,20 +1,31 @@
 class Solution {
     public void sortColors(int[] nums) {
-        // Use Dutch National Flag algorithm as the most optimized solution
-        int[] freq = new int[3];
-        for(int i=0;i<nums.length;i++)
+        int low = 0;
+        int high = nums.length-1;
+        int mid = 0;
+        while(mid<=high)
         {
-            freq[nums[i]]++;
-        }
-        int k = 0;
-        for(int i=0;i<3;i++)
-        {
-            while(freq[i]!=0)
+            if(nums[mid]==0)
             {
-                nums[k] = i;
-                k++;
-                freq[i]--;
+                swap(nums,low,mid);
+                low++;
+                mid++;
+            }
+            else if(nums[mid]==1)
+            {
+                mid++;
+            }
+            else if(nums[mid]==2)
+            {
+                swap(nums,mid,high);
+                high--;
             }
         }
+    }
+    public void swap(int[] nums,int i,int j)
+    {
+        int temp = nums[i];
+        nums[i] = nums[j];
+        nums[j] = temp;
     }
 }
